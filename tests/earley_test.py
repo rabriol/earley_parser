@@ -1,35 +1,49 @@
 __author__ = 'rafaeuoliveira'
 
+
 class Production(object):
+
     def __init__(self, *terms):
         self.terms = terms
+
     def __len__(self):
         return len(self.terms)
+
     def __getitem__(self, index):
         return self.terms[index]
+
     def __iter__(self):
         return iter(self.terms)
+
     def __repr__(self):
         return " ".join(str(t) for t in self.terms)
+
     def __eq__(self, other):
         if not isinstance(other, Production):
             return False
         return self.terms == other.terms
+
     def __ne__(self, other):
         return not (self == other)
+
     def __hash__(self):
         return hash(self.terms)
+
 
 class Rule(object):
     def __init__(self, name, *productions):
         self.name = name
         self.productions = list(productions)
+
     def __str__(self):
         return self.name
+
     def __repr__(self):
         return "%s -> %s" % (self.name, " | ".join(repr(p) for p in self.productions))
+
     def add(self, *productions):
         self.productions.extend(productions)
+
 
 class State(object):
     def __init__(self, name, production, dot_index, start_column):
@@ -39,23 +53,30 @@ class State(object):
         self.end_column = None
         self.dot_index = dot_index
         self.rules = [t for t in production if isinstance(t, Rule)]
+
     def __repr__(self):
         terms = [str(p) for p in self.production]
         terms.insert(self.dot_index, u"$")
         return "%-5s -> %-16s [%s-%s]" % (self.name, " ".join(terms), self.start_column, self.end_column)
+
     def __eq__(self, other):
         return (self.name, self.production, self.dot_index, self.start_column) == \
             (other.name, other.production, other.dot_index, other.start_column)
+
     def __ne__(self, other):
         return not (self == other)
+
     def __hash__(self):
         return hash((self.name, self.production))
+
     def completed(self):
         return self.dot_index >= len(self.production)
+
     def next_term(self):
         if self.completed():
             return None
         return self.production[self.dot_index]
+
 
 class Column(object):
     def __init__(self, index, token):
@@ -63,17 +84,23 @@ class Column(object):
         self.token = token
         self.states = []
         self._unique = set()
+
     def __str__(self):
         return str(self.index)
+
     def __len__(self):
         return len(self.states)
+
     def __iter__(self):
         return iter(self.states)
+
     def __getitem__(self, index):
         return self.states[index]
+
     def enumfrom(self, index):
         for i in range(index, len(self.states)):
             yield i, self.states[i]
+
     def add(self, state):
         if state not in self._unique:
             self._unique.add(state)
@@ -81,32 +108,38 @@ class Column(object):
             self.states.append(state)
             return True
         return False
-    def print_(self, completedOnly = False):
+
+    def print_(self, completed_only=False):
         print "[%s] %r" % (self.index, self.token)
         print "=" * 35
         for s in self.states:
-            if completedOnly and not s.completed():
+            if completed_only and not s.completed():
                 continue
             print repr(s)
         print
+
 
 class Node(object):
     def __init__(self, value, children):
         self.value = value
         self.children = children
-    def print_(self, level = 0):
+
+    def print_(self, level=0):
         print "  " * level + str(self.value)
         for child in self.children:
             child.print_(level + 1)
+
 
 def predict(col, rule):
     for prod in rule.productions:
         col.add(State(rule.name, prod, 0, col))
 
+
 def scan(col, state, token):
     if token != col.token:
         return
     col.add(State(state.name, state.production, state.dot_index + 1, state.start_column))
+
 
 def complete(col, state):
     if not state.completed():
@@ -119,6 +152,7 @@ def complete(col, state):
             col.add(State(st.name, st.production, st.dot_index + 1, st.start_column))
 
 GAMMA_RULE = u"GAMMA"
+
 
 def parse(rule, text):
     table = [Column(i, tok) for i, tok in enumerate([None] + text.lower().split())]
@@ -144,8 +178,10 @@ def parse(rule, text):
     else:
         raise ValueError("parsing failed")
 
+
 def build_trees(state):
     return build_trees_helper([], state, len(state.rules) - 1, state.end_column)
+
 
 def build_trees_helper(children, state, rule_index, end_column):
     if rule_index < 0:
@@ -175,7 +211,7 @@ OP = Rule("OP", Production("+"))
 EXPR = Rule("EXPR", Production(SYM))
 EXPR.add(Production(EXPR, OP, EXPR))
 
-for i in range(1,9):
+for i in range(1, 9):
     text = " + ".join(["a"] * i)
     q0 = parse(EXPR, text)
     forest = build_trees(q0)
@@ -183,16 +219,16 @@ for i in range(1,9):
 
 
 N = Rule("N", Production("time"), Production("flight"), Production("banana"),
-    Production("flies"), Production("boy"), Production("telescope"))
+         Production("flies"), Production("boy"), Production("telescope"))
 D = Rule("D", Production("the"), Production("a"), Production("an"))
 V = Rule("V", Production("book"), Production("eat"), Production("sleep"), Production("saw"))
 P = Rule("P", Production("with"), Production("in"), Production("on"), Production("at"),
-    Production("through"))
+         Production("through"))
 
 PP = Rule("PP")
 NP = Rule("NP", Production(D, N), Production("john"), Production("houston"))
-NP.add(Production(NP, PP))
-PP.add(Production(P, NP))
+NP.add(Production(*tuple([NP, PP])))
+PP.add(Production(*tuple([P, NP])))
 
 VP = Rule("VP", Production(V, NP))
 VP.add(Production(VP, PP))

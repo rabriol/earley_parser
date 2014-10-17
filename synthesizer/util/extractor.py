@@ -86,8 +86,7 @@ class Extractor():
         raise Exception('Error on Node construction')
 
     #responsable to detect when ')' appears and it builds a new Node()
-    @staticmethod
-    def build_node(deq):
+    def build_node(self, deq):
         head_is_complete = False
         head = ''
         tail = ''
