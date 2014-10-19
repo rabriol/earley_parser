@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# _*_ coding: utf-8 _*_
+
 __author__ = 'rafaeuoliveira'
 
 from synthesizer.util.sentence_generator import SentenceGenerator
@@ -12,8 +15,8 @@ class Generator(object):
 
         sentences, start_at, number_of_sentences = SentenceGenerator().get_sentences(nodes)
 
-        nodes_for_grammar = nodes[0:int(start_at)] + nodes[int(start_at+sentence_number):len(nodes)]
+        nodes_for_grammar = nodes[0:int(start_at)] + nodes[int(start_at+number_of_sentences):len(nodes)]
 
-        grammar = GrammarGenerator().build_grammar(nodes_for_grammar)
+        rules, lexicons = GrammarGenerator().build_grammar(nodes_for_grammar)
 
-        return sentences
+        return sentences, rules, lexicons

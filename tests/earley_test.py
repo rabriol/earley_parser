@@ -205,17 +205,26 @@ def build_trees_helper(children, state, rule_index, end_column):
                 outputs.append(node)
     return outputs
 
+V = Rule("V", Production("e"))
+AB = Rule("AB", Production(V))
+PA = Rule("PA", Production("amor"))
 
-SYM = Rule("SYM", Production("a"))
-OP = Rule("OP", Production("+"))
-EXPR = Rule("EXPR", Production(SYM))
-EXPR.add(Production(EXPR, OP, EXPR))
+BN = Rule('BN', Production('e'))
+N = Rule('N', Production('amor'))
 
-for i in range(1, 9):
-    text = " + ".join(["a"] * i)
-    q0 = parse(EXPR, text)
+INITIAL = Rule("INITIAL", Production(AB, PA))
+INITIAL.add(Production(BN, N))
+
+#for i in range(1, 9):
+#    text = " + ".join(["a"] * i)
+#    q0 = parse(EXPR, text)
+#    forest = build_trees(q0)
+#    print len(forest), text
+
+if __name__ == '__main__':
+    q0 = parse(INITIAL, "e amor")
     forest = build_trees(q0)
-    print len(forest), text
+    forest[0].print_()
 
 
 N = Rule("N", Production("time"), Production("flight"), Production("banana"),

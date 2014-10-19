@@ -6,7 +6,6 @@ __author__ = 'rafaeuoliveira'
 import unittest
 from synthesizer.util.grammar_generator import GrammarGenerator
 from synthesizer.util.extractor import Extractor
-from synthesizer.model.term import Term
 
 
 class GrammarGeneratorTest(unittest.TestCase):
@@ -18,8 +17,8 @@ class GrammarGeneratorTest(unittest.TestCase):
         nodes = Extractor().init(corpus)
         rules, lexicons = GrammarGenerator().build_rules(nodes)
 
-        self.assertTrue([Term('IP\n')] in rules['INITIAL'])
-        self.assertTrue([Term('senhor')] in lexicons['NP'])
+        self.assertTrue(['IP\n'] in rules['INITIAL'])
+        self.assertTrue(['senhor'] in lexicons['NP'])
 
     def test_generate_little_bit_big_dict(self):
         corpus = '''(IP
@@ -42,18 +41,18 @@ class GrammarGeneratorTest(unittest.TestCase):
         nodes = Extractor().init(corpus)
         rules, lexicons = GrammarGenerator().build_rules(nodes)
 
-        self.assertTrue([Term('NP'), Term('.'), Term('VB'), Term('PP'), Term('NP'), Term('.')] in rules['IP'])
+        self.assertTrue(['NP', '.', 'VB', 'PP', 'NP', '.'] in rules['IP'])
 
-        self.assertTrue([Term('senhor')] in lexicons['NPR'])
-        self.assertTrue([Term('reflexões')] in lexicons['NPR'])
-        self.assertTrue([Term('majestade')] in lexicons['NPR'])
-        self.assertTrue([Term('dos')] in lexicons['P+D'])
+        self.assertTrue(['senhor'] in lexicons['NPR'])
+        self.assertTrue(['reflexões'] in lexicons['NPR'])
+        self.assertTrue(['majestade'] in lexicons['NPR'])
+        self.assertTrue(['dos'] in lexicons['P+D'])
 
     def test_generate_dict_from_file(self):
         nodes = Extractor().build_tree()
         rules, lexicons = GrammarGenerator().build_rules(nodes)
 
-        self.assertTrue([Term('ADV'), Term('NP'), Term('VB'), Term('NP')] in rules['IP'])
+        self.assertTrue(['ADV', 'NP', 'VB', 'NP'] in rules['IP'])
 
     def test_get_little_grammar(self):
         corpus = '''(IP

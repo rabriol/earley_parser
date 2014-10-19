@@ -3,8 +3,6 @@
 
 __author__ = 'rafaeuoliveira'
 
-from synthesizer.model.term import Term
-
 
 class GrammarGenerator(object):
     def build_grammar(self, nodes):
@@ -29,7 +27,7 @@ class GrammarGenerator(object):
 
         for node in nodes:
             terms = rules['INITIAL']
-            term = Term(node.name)
+            term = node.name
             if [term] not in terms:
                 terms.append([term])
 
@@ -39,18 +37,23 @@ class GrammarGenerator(object):
 
     def build_rules_helper(self, name, children, rules, lexicons):
         if len(children) == 1 and children[0].is_leaf():
+            if name in ['NP', 'WPP']:
+                return
+
             try:
                 lexicons[name]
             except KeyError:
                 lexicons[name] = []
 
-            term = Term(children[0].name.lower(), True)
+            term = children[0].name.lower()
 
             if [term] not in lexicons[name]:
                 lexicons[name].append([term])
                 return
 
         else:
+            if name in ['VB']:
+                return
             try:
                 rules[name]
             except KeyError:
@@ -58,11 +61,11 @@ class GrammarGenerator(object):
 
             terms = []
             for node in children:
-                terms.append(Term(node.name))
+                terms.append(node.name)
                 self.build_rules_helper(node.name, node.children, rules, lexicons)
 
             if terms not in rules[name]:
-                if len(terms) == 1 and name == terms[0].name:
+                if len(terms) == 1 and name == terms[0]:
                     pass
                 else:
                     rules[name].append(terms)

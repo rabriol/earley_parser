@@ -1,7 +1,7 @@
 __author__ = 'rafaeuoliveira'
 
 import unittest
-from synthesizer.model.term import Term
+
 
 class OtherTest(unittest.TestCase):
 

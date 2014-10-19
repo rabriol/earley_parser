@@ -24,13 +24,13 @@ class SentenceGenerator(object):
             return ''
 
         if node.is_leaf():
-            return [node.name]
+            return [node.name.lower()]
 
-        sentences = []
+        word = []
         for child in node.children:
-            sentences += self.extract_sentences_from_tree(child)
+            word += self.extract_sentences_from_tree(child)
 
-        return sentences
+        return word
 
     #responsable to generate the sentences
     @staticmethod
