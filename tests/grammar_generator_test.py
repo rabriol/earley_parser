@@ -12,13 +12,13 @@ class GrammarGeneratorTest(unittest.TestCase):
 
     def test_generate_little_dict(self):
         corpus = '''(IP
-            (NP Senhor))'''
+            (VB Senhor))'''
 
         nodes = Extractor().init(corpus)
         rules, lexicons = GrammarGenerator().build_rules(nodes)
 
         self.assertTrue(['IP\n'] in rules['INITIAL'])
-        self.assertTrue(['senhor'] in lexicons['NP'])
+        self.assertTrue(['senhor'] in lexicons['VB'])
 
     def test_generate_little_bit_big_dict(self):
         corpus = '''(IP

@@ -13823,17 +13823,17 @@
 					(SR é)
 					(ADJP (ADJ mentirosa))))))
 	(. :))
-(IP (NP (D a)
+
+(IP  
+	(PP (P por)
+	    (NP (DEM isso(IP (NP (D a)
 		(N natureza))
 	(VB quer)
 	(CP (C que)
-		(IP  
+		(IP
 			(NP (CL nos))
 			(VB amemos)))
-	(, ,))
-(IP  
-	(PP (P por)
-	    (NP (DEM isso)))
+	(, ,)))))
 	(VB faz)
 	(CP (C que)
 		(IP  

@@ -35,7 +35,7 @@ class SentenceGeneratorTest(unittest.TestCase):
 
         sentence = SentenceGenerator().extract_sentences_from_tree(node)
 
-        self.assertEquals(['Declamei', 'contra', 'a'], sentence)
+        self.assertEquals(['declamei', 'contra', 'a'], sentence)
 
     def test_walk_in_tree_2(self):
         corpus = '''(IP
@@ -58,5 +58,5 @@ class SentenceGeneratorTest(unittest.TestCase):
 
         sentence = SentenceGenerator().extract_sentences_from_tree(nodes[0])
 
-        self.assertEquals(['Senhor', ':', 'Ofereço', 'a', 'Vossa', 'Majestade', 'as', 'Reflexões', 'sobre', 'a',
+        self.assertEquals(['senhor', ':', 'ofereço', 'a', 'vossa', 'majestade', 'as', 'reflexões', 'sobre', 'a',
                            'vaidade', 'dos', 'homens', ';'], sentence)
