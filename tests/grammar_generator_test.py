@@ -65,7 +65,7 @@ class GrammarGeneratorTest(unittest.TestCase):
         self.assertTrue(grammar)
 
     def test_get_grammar_from_file(self):
-        nodes = Extractor().build_tree()
+        nodes = Extractor().build_tree('/Users/rafaeuoliveira/Developer/workspace/python/synthesizer/resources/aires-treino.parsed')
         grammar = GrammarGenerator().build_grammar(nodes)
 
         self.assertTrue(grammar)

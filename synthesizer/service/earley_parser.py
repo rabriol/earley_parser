@@ -24,7 +24,7 @@ class EarleyParser(object):
                     self.complete(column, state, rules_with_lexicons)
                 else:
                     term = state.next_term()
-                    if term in rules_with_lexicons:
+                    if term in rules or (term in lexicons and not term == state.name):
                         if not term in predicts_done:
                             predicts_done.add(term)
                             self.predict(column, term, rules_with_lexicons)
@@ -50,7 +50,7 @@ class EarleyParser(object):
                         print st
             print '- ' * 35
         else:
-            print 'NÃO RECONHECIDA!'
+            print 'SENTENÇA NÃO RECONHECIDA!'
 
         print 'Tempo total de execução => %-8s' % (time.time() - start)
 

@@ -160,6 +160,6 @@ class TestConsumeNode(unittest.TestCase):
         self.assertEquals(node.name, 'IP', 'os valores nao sao iguais')
     
     def test_build_tree_from_file(self):
-        nodes = Extractor().build_tree()
+        nodes = Extractor().build_tree('/Users/rafaeuoliveira/Developer/workspace/python/synthesizer/resources/aires-treino.parsed')
         
         self.assertTrue(len(nodes) == 1758, 'o tamanho da lista esta incorreto')

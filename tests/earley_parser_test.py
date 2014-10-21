@@ -64,7 +64,7 @@ class EarleyParserTest(unittest.TestCase):
         (, ,))
         """
 
-        sentences, rules, lexicons = Generator.get_grammar_and_sentences()
+        sentences, rules, lexicons = Generator.get_grammar_and_sentences('/Users/rafaeuoliveira/Developer/workspace/python/synthesizer/resources/aires-treino.parsed')
 
         sentence = ['a', 'natureza', 'quer', 'que', 'nos']
 
@@ -73,7 +73,7 @@ class EarleyParserTest(unittest.TestCase):
         self.assertTrue(recognized)
 
     def test_recognize_from_all_corpus(self):
-        sentences, rules, lexicons = Generator.get_grammar_and_sentences()
+        sentences, rules, lexicons = Generator.get_grammar_and_sentences('/Users/rafaeuoliveira/Developer/workspace/python/synthesizer/resources/aires-treino.parsed')
 
         start = time.time()
 

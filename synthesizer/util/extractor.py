@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
 
-__author__ = 'rafael-brito'
+__author__ = 'rafaeuoliveira'
 
 import cStringIO
 from collections import deque
@@ -13,8 +13,7 @@ class Extractor():
         pass
 
     #it reads the file
-    def build_tree(self):
-        file_name = '/Users/rafaeuoliveira/Developer/workspace/python/synthesizer/resources/aires-treino.parsed'
+    def build_tree(self, file_name='/aires-treino.parsed'):
         data = open(file_name, 'r').read(60000000)
         stream = cStringIO.StringIO(data)
         
